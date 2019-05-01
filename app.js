@@ -9,16 +9,17 @@ const loc = process.argv[2]
 if(!loc){
 console.log('Please provide an address')
 }else{
-geocode(loc, (err, res) => {
+geocode(loc, (err, {latitude, longitude, location}) => {
 	if(err){
 	return console.log(err)
 	}
-	console.log('Geocode Data: ',res)
-	forecast(res.latitude,res.longitude, (err, res) => {
+	console.log('Weather located at: ' + location)
+	forecast(latitude,longitude, (err, res) => {
 		if(err){
 			return console.log('Error: ', err)
 		}
-		console.log('Forecast Data: ', res)
+		const {temperature, precipChance}=res
+		console.log('The temperatude is: '+ temperature + ' Celsius and the chance of rain is: ' + precipChance + '%')
 	})
 })
 }
